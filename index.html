@@ -1036,6 +1036,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     });
   });
 
+  // GA4 / Google Ads: eventos de funil do formulário
+  function pushFormEvent(eventName, extra = {}) {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: eventName, form_name: 'cotizacion', ...extra });
+  }
+  document.querySelectorAll('a[href="#cotizar"]').forEach(link => link.addEventListener('click', () => pushFormEvent('form_open')));
+
   // Smart nav
   const nav = document.getElementById('nav'); let lastY = 0;
   window.addEventListener('scroll', () => {
@@ -1083,6 +1090,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     updateProgress(n);
     currentStep = n;
     form.closest('.form-wrap').scrollIntoView({behavior:'smooth',block:'start'});
+    if(n === 2) pushFormEvent('form_step_two');
   }
 
   function validateStep(n){
@@ -1162,6 +1170,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     e.preventDefault();
     const consent = form.querySelector('[name="contact_consent"]');
     if(!consent.checked){ showErr(consent,'Você precisa aceitar para enviar.'); return; }
+    pushFormEvent('form_submit');
     fBtn.textContent = 'Enviando…';
     fBtn.style.background = '#22c55e';
     fBtn.disabled = true;
