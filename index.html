@@ -633,7 +633,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   </style>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script type="text/javascript">emailjs.init("-P0etp61S9Oy-AT0i");</script>
+  <script type="text/javascript">emailjs.init("");</script>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -1173,7 +1173,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     fBtn.textContent = 'Enviando…';
     fBtn.style.background = '#22c55e';
     fBtn.disabled = true;
-    emailjs.sendForm('service_ogjmp4o', 'template_bw3wa49', form)
+    emailjs.sendForm('', '', form)
       .then(()=>{ window.location.href='thankyou.html'; })
       .catch(err=>{ console.error('EmailJS error:', err); window.location.href='thankyou.html'; });
   });
