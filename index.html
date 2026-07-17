@@ -143,6 +143,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="svc-card reveal d2"><h3 class="svc-title">Acompanhamento em tempo real</h3><p class="svc-desc">Monitoramento constante com atualizações de status em cada etapa do transporte.</p></div>
       <div class="svc-card reveal d3"><h3 class="svc-title">Assessoria Comercial</h3><p class="svc-desc">Nossa equipe ajuda você a encontrar a melhor solução de acordo com o tipo e o volume da sua carga.</p></div>
     </div>
+    <p class="svc-mobile-note reveal">Outros serviços podem ser informados no formulário de cotação.</p>
   </div>
 </section>
 
@@ -451,6 +452,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       const target = getPremiumAnchorTarget(hash);
       if (!target && hash !== '#inicio') return;
       e.preventDefault();
+      if (document.activeElement && typeof document.activeElement.blur === 'function') document.activeElement.blur();
       scrollToPremiumAnchor(hash);
       if (hash && hash !== '#') history.pushState(null, '', hash);
     });
@@ -510,12 +512,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     progBars.forEach((b,i)=>{ b.classList.toggle('active', i < step); });
   }
 
+  function centerCurrentFormStep(){
+    if (document.activeElement && typeof document.activeElement.blur === 'function') document.activeElement.blur();
+    const activeStep = form.querySelector('.quote-step.active') || form.closest('.form-wrap');
+    const target = activeStep || form;
+    const navH = nav ? nav.offsetHeight : 0;
+    const rect = target.getBoundingClientRect();
+    const absoluteCenter = rect.top + window.scrollY + (rect.height / 2);
+    const targetY = absoluteCenter - (window.innerHeight / 2) + (navH / 2);
+    const maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    const safeY = Math.max(0, Math.min(targetY, maxY));
+    window.scrollTo({ top: safeY, behavior: 'smooth' });
+  }
+
   function showStep(n){
+    if (document.activeElement && typeof document.activeElement.blur === 'function') document.activeElement.blur();
     steps.forEach(s=>s.classList.remove('active'));
     form.querySelector('[data-step="'+n+'"]').classList.add('active');
     updateProgress(n);
     currentStep = n;
-    form.closest('.form-wrap').scrollIntoView({behavior:'smooth',block:'start'});
+    requestAnimationFrame(()=>setTimeout(centerCurrentFormStep, 30));
     if(n === 2) pushFormEvent('form_step_two_br');
   }
 

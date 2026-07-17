@@ -169,6 +169,7 @@ button { cursor: pointer; border: none; font-family: inherit; }
 .svc-icon { width:50px; height:50px; background:rgba(27,79,190,.14); border-radius:12px; display:grid; place-items:center; font-size:22px; margin-bottom:18px; }
 .svc-title { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:800; text-transform:uppercase; color:var(--navy); margin-bottom:9px; }
 .svc-desc { font-size:15px; color:var(--gray); line-height:1.75; }
+.svc-mobile-note { display:none; }
 
 /* ===== HOW ===== */
 .how { padding: 92px 0; background: var(--navy); position: relative; overflow: hidden; }
@@ -607,6 +608,17 @@ button { cursor: pointer; border: none; font-family: inherit; }
 .site-credit a { color:rgba(255,255,255,.5); text-decoration:none; border-bottom:1px solid rgba(255,255,255,.18); padding-bottom:1px; transition:color .2s,border-color .2s; }
 .site-credit a:hover { color:#6AABFF; border-color:rgba(106,171,255,.45); }
 @media(max-width:640px){
+  .services { padding: 70px 0; }
+  .svc-grid .svc-card:nth-child(n+6) { display:none; }
+  .svc-mobile-note {
+    display:block;
+    margin:18px auto 0;
+    max-width:330px;
+    text-align:center;
+    color:var(--gray-d);
+    font-size:13px;
+    line-height:1.55;
+  }
   .contact { padding: 70px 0; }
   .contact .sec-hd { margin-bottom: 32px; }
   .c-grid { grid-template-columns:1fr; gap:16px; max-width: 460px; }
