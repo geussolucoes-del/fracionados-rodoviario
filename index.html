@@ -185,10 +185,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="form-wrap reveal">
       <form id="quoteForm" novalidate>
         <input type="hidden" name="lead_profile" id="leadProfile" value="">
+        <input type="hidden" name="operation_scope" id="operationScope" value="">
+        <input type="hidden" name="qualified_route" id="qualifiedRoute" value="">
         <input type="hidden" name="from_name" id="fromName" value="">
         <input type="hidden" name="subject" value="Nova cotação B2B MercoCargas Brasil">
         <div class="quote-progress" aria-hidden="true">
-          <span class="active"></span><span></span><span></span><span></span>
+          <span class="active"></span><span></span><span></span><span></span><span></span>
         </div>
 
         <!-- STEP 1: Qualificação -->
@@ -211,8 +213,56 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="qualify-message" id="qualifyMessage">No momento, a MercoCargas atende solicitações empresariais. Se você representa uma empresa ou tem autorização para cotar, selecione a opção B2B para continuar.</div>
         </div>
 
-        <!-- STEP 2: Dados do responsável -->
+        <!-- STEP 2: Rota atendida -->
         <div class="quote-step" data-step="2">
+          <div class="quote-step-head">
+            <span class="quote-kicker">Filtro de rota</span>
+            <h3 class="quote-step-title">Sua operação envolve Brasil e Mercosul?</h3>
+            <p class="quote-step-desc">Atendemos somente envios do Brasil para Argentina, Chile, Paraguai ou Uruguai, ou importações desses países para o Brasil.</p>
+          </div>
+          <div class="qualify-grid route-qualify-grid" role="radiogroup" aria-label="Tipo de rota">
+            <button type="button" class="qualify-card route-card" data-route-qualified="yes" data-operation-scope="Brasil para país atendido">
+              <strong>Sim, envio do Brasil</strong>
+              <small>Quero enviar do Brasil para Argentina, Chile, Paraguai ou Uruguai.</small>
+            </button>
+            <button type="button" class="qualify-card route-card" data-route-qualified="yes" data-operation-scope="País atendido para Brasil">
+              <strong>Sim, trago para o Brasil</strong>
+              <small>Quero trazer carga da Argentina, Chile, Paraguai ou Uruguai para o Brasil.</small>
+            </button>
+            <button type="button" class="qualify-card route-card" data-route-qualified="no" data-operation-scope="Rota não atendida">
+              <strong>Não, é outra rota</strong>
+              <small>Ex: Brasil para Brasil, outro país, ou rota sem Argentina, Chile, Paraguai ou Uruguai.</small>
+            </button>
+          </div>
+          <div class="route-details" id="routeDetails">
+            <div class="f-grid">
+              <div class="f-group">
+                <label class="f-label">País da operação *</label>
+                <select class="f-select" name="route_country" id="routeCountry">
+                  <option value="">Selecione o país</option>
+                  <option>Argentina</option>
+                  <option>Chile</option>
+                  <option>Paraguai</option>
+                  <option>Uruguai</option>
+                </select>
+              </div>
+              <div class="f-group">
+                <label class="f-label">Direção da rota *</label>
+                <select class="f-select" name="operation_direction" id="operationDirection">
+                  <option value="">Selecione a direção</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="qualify-message" id="routeMessage">No momento, a MercoCargas não atende fretes nacionais Brasil-Brasil nem rotas fora de Argentina, Chile, Paraguai e Uruguai. Para essas operações, não conseguimos seguir com a cotação.</div>
+          <div class="quote-actions">
+            <button type="button" class="quote-back">Voltar</button>
+            <button type="button" class="btn-primary quote-next">Próximo</button>
+          </div>
+        </div>
+
+        <!-- STEP 3: Dados do responsável -->
+        <div class="quote-step" data-step="3">
           <div class="quote-step-head">
             <span class="quote-kicker">Dados do responsável</span>
             <h3 class="quote-step-title">Contato empresarial</h3>
@@ -233,8 +283,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
 
-        <!-- STEP 3: Rota e carga -->
-        <div class="quote-step" data-step="3">
+        <!-- STEP 4: Rota e carga -->
+        <div class="quote-step" data-step="4">
           <div class="quote-step-head">
             <span class="quote-kicker">Rota e carga</span>
             <h3 class="quote-step-title">Detalhes do envio</h3>
@@ -248,6 +298,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <option value="">Selecione uma opção</option>
                 <option>Carga fracionada Brasil Argentina</option>
                 <option>Carga fracionada Argentina Brasil</option>
+                <option>Carga fracionada Brasil Chile</option>
+                <option>Carga fracionada Chile Brasil</option>
+                <option>Carga fracionada Brasil Paraguai</option>
+                <option>Carga fracionada Paraguai Brasil</option>
+                <option>Carga fracionada Brasil Uruguai</option>
+                <option>Carga fracionada Uruguai Brasil</option>
                 <option>Transporte internacional</option>
                 <option>Gestão aduaneira</option>
                 <option>Outro serviço logístico</option>
@@ -273,8 +329,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
 
-        <!-- STEP 4: Confirmação -->
-        <div class="quote-step" data-step="4">
+        <!-- STEP 5: Confirmação -->
+        <div class="quote-step" data-step="5">
           <div class="quote-step-head">
             <span class="quote-kicker">Confirmação</span>
             <h3 class="quote-step-title">Revise e envie</h3>
@@ -478,6 +534,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   const fBtn = document.getElementById('fBtn');
   const steps = form.querySelectorAll('.quote-step');
   const progBars = form.querySelectorAll('.quote-progress span');
+  const routeCountry = document.getElementById('routeCountry');
+  const operationDirection = document.getElementById('operationDirection');
   let currentStep = 1;
 
   function updateProgress(step){
@@ -496,6 +554,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   function validateStep(n){
     const step = form.querySelector('[data-step="'+n+'"]');
     let ok = true;
+    if(n === 2 && !document.getElementById('operationScope').value){
+      document.getElementById('routeMessage').textContent = 'Selecione uma das opções de rota para continuar.';
+      document.getElementById('routeMessage').classList.add('visible');
+      return false;
+    }
+    if(n === 2 && document.getElementById('operationScope').value === 'Rota não atendida'){
+      document.getElementById('routeMessage').classList.add('visible');
+      return false;
+    }
     step.querySelectorAll('.f-input[required],.f-select[required],.f-textarea[required]').forEach(el=>{
       if(!validField(el)) ok = false;
     });
@@ -503,7 +570,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   }
 
   // Step 1 — qualificação
-  form.querySelectorAll('.qualify-card').forEach(card=>{
+  form.querySelectorAll('.qualify-card[data-qualified]').forEach(card=>{
     card.addEventListener('click',()=>{
       form.querySelectorAll('.qualify-card').forEach(c=>c.classList.remove('selected'));
       card.classList.add('selected');
@@ -518,6 +585,64 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     });
   });
 
+  function setDirectionOptions(scope){
+    routeCountry.value = '';
+    operationDirection.innerHTML = '<option value="">Selecione o país primeiro</option>';
+    operationDirection.value = '';
+    document.getElementById('qualifiedRoute').value = '';
+  }
+
+  function updateDirectionFromCountry(){
+    const scope = document.getElementById('operationScope').value;
+    const country = routeCountry.value;
+    if(!country){
+      operationDirection.innerHTML = '<option value="">Selecione o país primeiro</option>';
+      operationDirection.value = '';
+      updateQualifiedRoute();
+      return;
+    }
+    const direction = scope === 'Brasil para país atendido' ? `Brasil para ${country}` : `${country} para Brasil`;
+    operationDirection.innerHTML = `<option value="">Selecione a direção</option><option>${direction}</option>`;
+    operationDirection.value = direction;
+    updateQualifiedRoute();
+  }
+
+  function updateQualifiedRoute(){
+    const country = routeCountry.value;
+    const direction = operationDirection.value;
+    document.getElementById('qualifiedRoute').value = country && direction ? `${direction} (${country})` : '';
+  }
+
+  // Step 2 — qualificação de rota
+  form.querySelectorAll('.route-card').forEach(card=>{
+    card.addEventListener('click',()=>{
+      form.querySelectorAll('.route-card').forEach(c=>c.classList.remove('selected'));
+      card.classList.add('selected');
+      const qualified = card.dataset.routeQualified;
+      const scope = card.dataset.operationScope;
+      document.getElementById('operationScope').value = scope;
+      document.getElementById('routeMessage').classList.remove('visible');
+      if(qualified === 'yes'){
+        document.getElementById('routeDetails').classList.add('visible');
+        routeCountry.setAttribute('required','');
+        operationDirection.setAttribute('required','');
+        setDirectionOptions(scope);
+      } else {
+        document.getElementById('routeDetails').classList.remove('visible');
+        routeCountry.removeAttribute('required');
+        operationDirection.removeAttribute('required');
+        routeCountry.value = '';
+        operationDirection.innerHTML = '<option value="">Selecione o país primeiro</option>';
+        document.getElementById('qualifiedRoute').value = '';
+        document.getElementById('routeMessage').textContent = 'No momento, a MercoCargas não atende fretes nacionais Brasil-Brasil nem rotas fora de Argentina, Chile, Paraguai e Uruguai. Para essas operações, não conseguimos seguir com a cotação.';
+        document.getElementById('routeMessage').classList.add('visible');
+      }
+    });
+  });
+
+  routeCountry.addEventListener('change', updateDirectionFromCountry);
+  operationDirection.addEventListener('change', updateQualifiedRoute);
+
   // Botões Próximo
   form.querySelectorAll('.quote-next').forEach(btn=>{
     btn.addEventListener('click',()=>{
@@ -531,7 +656,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     btn.addEventListener('click',()=>{ if(currentStep>1) showStep(currentStep-1); });
   });
 
-  // Preencher resumo no step 4
+  // Preencher resumo no step 5
   function buildSummary(){
     const get = n => (form.querySelector('[name="'+n+'"]')?.value||'').trim();
     const firstName = get('first_name'), lastName = get('last_name');
@@ -543,6 +668,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       ['Empresa', get('company')],
       ['Cargo', get('role')],
       ['CNPJ', get('tax_id')||'—'],
+      ['Escopo da operação', get('operation_scope')],
+      ['Rota qualificada', get('qualified_route')],
       ['Origem', get('origin')],
       ['Destino', get('destination')],
       ['Serviço', get('service_type')],
@@ -554,14 +681,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     document.getElementById('quoteSummary').innerHTML = rows.map(([k,v])=>`<strong>${k}:</strong> ${v}<br>`).join('');
   }
 
-  // Interceptar clique em "Revisar" (step 3 → 4)
-  const step3Next = form.querySelector('[data-step="3"] .quote-next');
-  if(step3Next){
-    const orig = step3Next.cloneNode(true);
-    step3Next.replaceWith(orig);
+  // Interceptar clique em "Revisar" (step 4 → 5)
+  const step4Next = form.querySelector('[data-step="4"] .quote-next');
+  if(step4Next){
+    const orig = step4Next.cloneNode(true);
+    step4Next.replaceWith(orig);
     orig.addEventListener('click',()=>{
-      if(validateStep(3)){ buildSummary(); showStep(4); }
-      else form.querySelector('[data-step="3"] .ferr')?.scrollIntoView({behavior:'smooth',block:'center'});
+      if(validateStep(4)){ buildSummary(); showStep(5); }
+      else form.querySelector('[data-step="4"] .ferr')?.scrollIntoView({behavior:'smooth',block:'center'});
     });
   }
 

@@ -224,11 +224,15 @@ button { cursor: pointer; border: none; font-family: inherit; }
 .quote-back:hover { border-color:var(--blue); }
 .qualify-grid { display:grid; grid-template-columns:1fr; gap:12px; margin-top:18px; }
 @media(min-width:540px){ .qualify-grid { grid-template-columns:1fr 1fr; } }
+.route-qualify-grid { grid-template-columns:1fr; }
+@media(min-width:680px){ .route-qualify-grid { grid-template-columns:repeat(3,1fr); } }
 .qualify-card { background:#EEF1FA; border:2px solid transparent; border-radius:12px; padding:18px 16px; text-align:left; cursor:pointer; transition:border-color .25s,background .25s; }
 .qualify-card:hover { border-color:var(--blue); background:#E8EDFA; }
 .qualify-card.selected { border-color:var(--blue); background:#E8EDFA; }
 .qualify-card strong { display:block; font-size:14px; color:var(--navy); margin-bottom:5px; }
 .qualify-card small { font-size:12px; color:var(--gray); line-height:1.45; }
+.route-details { display:none; margin-top:18px; padding:16px; background:#F8FAFF; border:1px solid rgba(27,79,190,.12); border-radius:12px; }
+.route-details.visible { display:block; }
 .qualify-message { display:none; margin-top:14px; font-size:13px; color:#e53e3e; background:#fff5f5; border:1px solid #fed7d7; border-radius:8px; padding:12px 14px; line-height:1.5; }
 .qualify-message.visible { display:block; }
 .quote-summary { background:#EEF1FA; border-radius:10px; padding:18px 20px; margin-bottom:18px; font-size:13px; color:var(--navy); line-height:1.8; }
@@ -596,4 +600,3 @@ button { cursor: pointer; border: none; font-family: inherit; }
   .contact-email { flex-direction:column; align-items:stretch; gap:10px; margin-top:28px; }
   .contact-email .email-pill { width:100%; }
 }
-
