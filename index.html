@@ -288,25 +288,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="quote-step-head">
             <span class="quote-kicker">Rota e carga</span>
             <h3 class="quote-step-title">Detalhes do envio</h3>
-            <p class="quote-step-desc">Não precisa ter medidas exatas. Uma estimativa já ajuda a dimensionar a operação.</p>
+            <p class="quote-step-desc">Agora informe os pontos de coleta e entrega e o tipo de operação. Não precisa ter medidas exatas; uma estimativa já ajuda a cotar.</p>
           </div>
           <div class="f-grid">
-            <div class="f-group"><label class="f-label">Origem da carga *</label><input type="text" class="f-input" placeholder="Cidade, estado ou país de origem" name="origin" required></div>
-            <div class="f-group"><label class="f-label">Destino da carga *</label><input type="text" class="f-input" placeholder="Cidade, estado ou país de destino" name="destination" required></div>
+            <div class="f-group"><label class="f-label" id="originLabel">Local de coleta *</label><input type="text" class="f-input" id="originInput" placeholder="Cidade, estado/UF e país de coleta" name="origin" required></div>
+            <div class="f-group"><label class="f-label" id="destinationLabel">Local de entrega *</label><input type="text" class="f-input" id="destinationInput" placeholder="Cidade, estado/UF e país de entrega" name="destination" required></div>
             <div class="f-group"><label class="f-label">Tipo de serviço *</label>
               <select class="f-select" name="service_type" required>
                 <option value="">Selecione uma opção</option>
-                <option>Carga fracionada Brasil Argentina</option>
-                <option>Carga fracionada Argentina Brasil</option>
-                <option>Carga fracionada Brasil Chile</option>
-                <option>Carga fracionada Chile Brasil</option>
-                <option>Carga fracionada Brasil Paraguai</option>
-                <option>Carga fracionada Paraguai Brasil</option>
-                <option>Carga fracionada Brasil Uruguai</option>
-                <option>Carga fracionada Uruguai Brasil</option>
-                <option>Transporte internacional</option>
-                <option>Gestão aduaneira</option>
-                <option>Outro serviço logístico</option>
+                <option>Carga fracionada rodoviária</option>
+                <option>Carga completa / dedicada</option>
+                <option>Transporte + gestão aduaneira</option>
+                <option>Ainda não sei, preciso de orientação</option>
               </select>
             </div>
             <div class="f-group"><label class="f-label">Tipo de carga *</label><input type="text" class="f-input" placeholder="Ex: peças, máquinas, insumos" name="cargo_type" required></div>
@@ -536,6 +529,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   const progBars = form.querySelectorAll('.quote-progress span');
   const routeCountry = document.getElementById('routeCountry');
   const operationDirection = document.getElementById('operationDirection');
+  const originLabel = document.getElementById('originLabel');
+  const originInput = document.getElementById('originInput');
+  const destinationLabel = document.getElementById('destinationLabel');
+  const destinationInput = document.getElementById('destinationInput');
   let currentStep = 1;
 
   function updateProgress(step){
@@ -613,6 +610,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     document.getElementById('qualifiedRoute').value = country && direction ? `${direction} (${country})` : '';
   }
 
+  function updateRouteFieldCopy(){
+    const scope = document.getElementById('operationScope').value;
+    const country = routeCountry.value || 'país atendido';
+    if(scope === 'Brasil para país atendido'){
+      originLabel.textContent = 'Coleta no Brasil *';
+      originInput.placeholder = 'Cidade e UF de coleta no Brasil';
+      destinationLabel.textContent = `Entrega em ${country} *`;
+      destinationInput.placeholder = `Cidade de entrega em ${country}`;
+      return;
+    }
+    if(scope === 'País atendido para Brasil'){
+      originLabel.textContent = `Coleta em ${country} *`;
+      originInput.placeholder = `Cidade de coleta em ${country}`;
+      destinationLabel.textContent = 'Entrega no Brasil *';
+      destinationInput.placeholder = 'Cidade e UF de entrega no Brasil';
+      return;
+    }
+    originLabel.textContent = 'Local de coleta *';
+    originInput.placeholder = 'Cidade, estado/UF e país de coleta';
+    destinationLabel.textContent = 'Local de entrega *';
+    destinationInput.placeholder = 'Cidade, estado/UF e país de entrega';
+  }
+
   // Step 2 — qualificação de rota
   form.querySelectorAll('.route-card').forEach(card=>{
     card.addEventListener('click',()=>{
@@ -627,6 +647,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         routeCountry.setAttribute('required','');
         operationDirection.setAttribute('required','');
         setDirectionOptions(scope);
+        updateRouteFieldCopy();
       } else {
         document.getElementById('routeDetails').classList.remove('visible');
         routeCountry.removeAttribute('required');
@@ -634,13 +655,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         routeCountry.value = '';
         operationDirection.innerHTML = '<option value="">Selecione o país primeiro</option>';
         document.getElementById('qualifiedRoute').value = '';
+        updateRouteFieldCopy();
         document.getElementById('routeMessage').textContent = 'No momento, a MercoCargas não atende fretes nacionais Brasil-Brasil nem rotas fora de Argentina, Chile, Paraguai e Uruguai. Para essas operações, não conseguimos seguir com a cotação.';
         document.getElementById('routeMessage').classList.add('visible');
       }
     });
   });
 
-  routeCountry.addEventListener('change', updateDirectionFromCountry);
+  routeCountry.addEventListener('change', ()=>{
+    updateDirectionFromCountry();
+    updateRouteFieldCopy();
+  });
   operationDirection.addEventListener('change', updateQualifiedRoute);
 
   // Botões Próximo
