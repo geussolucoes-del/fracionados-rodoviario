@@ -584,36 +584,11 @@ button { cursor: pointer; border: none; font-family: inherit; }
   transition:background .2s,border-color .2s,transform .2s;
 }
 .contact-email .email-pill:hover { background:rgba(106,171,255,.12); border-color:rgba(106,171,255,.35); transform:translateY(-1px); }
-.advisor-gate {
-  max-width:760px;
-  margin:0 auto;
-  padding:24px 28px;
-  border-radius:14px;
-  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.035));
-  border:1px solid rgba(106,171,255,.18);
-  text-align:center;
-  box-shadow:0 16px 44px rgba(0,0,0,.18);
-}
-.advisor-gate-kicker {
-  display:block;
-  margin-bottom:10px;
-  font-size:11px;
-  font-weight:800;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  color:#6AABFF;
-}
-.advisor-gate p {
-  max-width:620px;
-  margin:0 auto 18px;
-  color:rgba(255,255,255,.72);
-  font-size:15px;
-  line-height:1.65;
-}
 .advisor-cta {
   display:inline-flex;
   align-items:center;
   justify-content:center;
+  margin-top:24px;
   min-height:46px;
   padding:12px 24px;
   border-radius:999px;
@@ -639,7 +614,6 @@ button { cursor: pointer; border: none; font-family: inherit; }
   .city-name { font-size:24px; }
   .contact-role { font-size:11px; }
   .wa-contact { width:100%; }
-  .advisor-gate { padding:22px; }
   .advisor-cta { width:100%; }
   .contact-email { flex-direction:column; align-items:stretch; gap:10px; margin-top:28px; }
   .contact-email .email-pill { width:100%; }

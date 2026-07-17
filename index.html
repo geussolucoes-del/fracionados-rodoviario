@@ -351,10 +351,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span class="sec-tag" style="color:#6AABFF">ATENDIMENTO COMERCIAL</span>
       <h2 class="sec-title">MERCOCARGAS — <span>Brasil</span></h2>
       <p class="sec-desc" style="color:rgba(255,255,255,.62)">Para falar com um assessor, preencha primeiro a cotação. Assim nossa equipe confirma se a rota e a carga estão dentro do atendimento da MercoCargas.</p>
-    </div>
-    <div class="advisor-gate reveal">
-      <span class="advisor-gate-kicker">Atendimento com contexto</span>
-      <p>Para falar com um assessor, preencha primeiro a cotação. Assim nossa equipe confirma se a rota e a carga estão dentro do atendimento da MercoCargas.</p>
       <a href="#cotizar" class="advisor-cta">Preencher cotação</a>
     </div>
   </div>
@@ -425,7 +421,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   function getPremiumAnchorTarget(hash) {
     if (!hash || hash === '#') return null;
     if (hash === '#cotizar') return document.querySelector('#cotizar .form-wrap') || document.querySelector('#cotizar');
-    if (hash === '#contacto') return document.querySelector('#contacto .advisor-gate') || document.querySelector('#contacto');
+    if (hash === '#contacto') return document.querySelector('#contacto .sec-hd') || document.querySelector('#contacto');
     try { return document.querySelector(hash); } catch (err) { return null; }
   }
 
